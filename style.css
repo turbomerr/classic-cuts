@@ -6,3 +6,23 @@
 .hero-photo.hero-logo{border-radius:0;display:flex;align-items:center;justify-content:center;overflow:visible;background:transparent}.hero-photo.hero-logo:after{display:none}.hero-photo.hero-logo img{position:static;width:100%;height:auto;max-height:600px;object-fit:contain;filter:none;left:auto;top:auto}@media(max-width:680px){.hero-photo.hero-logo{height:auto;min-height:0;padding:8px 0 20px}.hero-photo.hero-logo img{height:auto;max-height:460px}}
 
 .opening-hours{margin:25px 0 30px;padding:22px 0;border-top:1px solid #ffffff2a;border-bottom:1px solid #ffffff2a}.opening-hours h4{margin:0 0 16px;font-size:16px;font-weight:500;color:var(--peach)}.opening-hours dl{margin:0}.opening-hours dl>div{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 20px;font-size:14px;line-height:1.6}.opening-hours dl>div:last-child{margin-bottom:0}.opening-hours dt{color:#bacac0}.opening-hours dd{margin:0;white-space:nowrap}
+
+/* Opening sequence and progressive scroll reveals. */
+@keyframes entrance-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes entrance-logo{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:no-preference){
+ body>header{animation:entrance-up .65s ease-out both}
+ .hero-copy>*{animation:entrance-up .8s cubic-bezier(.2,.7,.2,1) both}
+ .hero-copy>.eyebrow{animation-delay:.08s}
+ .hero-copy>h1{animation-delay:.18s}
+ .hero-copy>p{animation-delay:.28s}
+ .hero-copy>.actions{animation-delay:.38s}
+ .hero-copy>.hero-rating{animation-delay:.48s}
+ .hero-photo.hero-logo{animation:entrance-logo 1s cubic-bezier(.2,.7,.2,1) .2s both}
+ .hero-bottom{animation:entrance-up .7s ease-out .5s both}
+ .scroll-reveal{transition:opacity .75s ease}.scroll-reveal>*{transition:transform .75s cubic-bezier(.2,.7,.2,1)}
+ .scroll-reveal.reveal-pending{opacity:0}.scroll-reveal.reveal-pending>*{transform:translateY(28px)}
+ .scroll-reveal.reveal-visible{opacity:1}.scroll-reveal.reveal-visible>*{transform:translateY(0)}
+ .hero-copy>*:focus-within{animation:none}
+}
+@media(prefers-reduced-motion:reduce){.scroll-reveal{opacity:1;transform:none;transition:none}}
