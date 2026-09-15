@@ -30,3 +30,40 @@ const reviews=[['A L','AL','Absolut empfehlenswert! Hervorragender Service, komp
     if (event.matches) { sections.forEach(show); observer.disconnect(); }
   });
 })();
+
+(() => {
+  const header = document.querySelector('body > header');
+  const toggle = document.querySelector('.menu-toggle');
+  const navigation = document.getElementById('main-navigation');
+  const mobile = window.matchMedia('(max-width: 680px)');
+  const setOpen = open => {
+    const expanded = mobile.matches && open;
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Menü schließen' : 'Menü öffnen');
+    navigation.hidden = mobile.matches && !expanded;
+  };
+  header.classList.add('menu-ready');
+  setOpen(false);
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  navigation.addEventListener('click', event => {
+    const link = event.target.closest('a');
+    if (!link || !mobile.matches) return;
+    setOpen(false);
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false); toggle.focus();
+    }
+  });
+  document.addEventListener('click', event => { if (!header.contains(event.target)) setOpen(false); });
+  header.addEventListener('focusout', event => { if (!header.contains(event.relatedTarget)) setOpen(false); });
+  mobile.addEventListener('change', () => {
+    const focusHidden = mobile.matches && navigation.contains(document.activeElement);
+    const focusToggle = !mobile.matches && document.activeElement === toggle;
+    setOpen(false);
+    if (focusHidden) toggle.focus();
+    if (focusToggle) navigation.querySelector('a').focus();
+  });
+})();
